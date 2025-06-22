@@ -1,38 +1,266 @@
+:root {
+  --bg-gradient-start: #2c3e50;
+  --bg-gradient-end: #3498db;
+  --primary-text-color: #ecf0f1;
+  --secondary-text-color: #bdc3c7;
+  --accent-color: #e74c3c;
+  --glass-bg: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --card-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  --font-display: 'Montserrat', sans-serif; 
+  --font-body: 'Open Sans', sans-serif;   
+}
+
+/* --- Theme Specific Overrides --- */
+.theme-animals {
+  --bg-gradient-start: #00467F; /* Deep Blue */
+  --bg-gradient-end: #A5CC82; /* Muted Green */
+  --accent-color: #FFC107; /* Amber */
+  --primary-text-color: #FFFFFF;
+}
+
+.theme-space {
+  --bg-gradient-start: #0b072c; /* Dark Blue */
+  --bg-gradient-end: #310c6d; /* Dark Purple */
+  --accent-color: #f92525; /* Red */
+  --primary-text-color: #E0E0E0;
+}
+
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(45deg, var(--bg-gradient-start), var(--bg-gradient-end));
+  background-attachment: fixed; /* Keep gradient fixed during scroll */
+  color: var(--primary-text-color);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Align content to top */
+  padding-top: 20px; /* Give some space from top */
+  transition: background 0.5s ease-in-out;
+}
+
+  /* --- App Container --- */
 .App {
   text-align: center;
+  width: 90%;
+  max-width: 1000px;
+  padding: 20px;
+  border-radius: 15px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); /* For Safari */
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--card-shadow);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* --- Typography --- */
+h1 {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--primary-text-color);
+  margin-bottom: 0.5em;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+h2 {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  color: var(--accent-color);
+  margin-bottom: 1em;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* --- Settings Component --- */
+.settings-container {
+  margin-bottom: 30px;
+  padding: 20px;
+  background: rgba(0,0,0,0.1); /* Slightly darker glass for contrast */
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  gap: 20px;
+}
+
+.settings-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.settings-group label {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--secondary-text-color);
+}
+
+.settings-group select, .settings-group button {
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  color: var(--primary-text-color);
+  font-size: 1rem;
+  font-family: var(--font-body);
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.settings-group select option {
+  background: #333; /* Dark background for dropdown options */
+  color: var(--primary-text-color);
+}
+
+.settings-group button {
+  background: var(--accent-color);
   color: white;
+  font-weight: bold;
+  padding: 12px 25px;
 }
 
-.App-link {
-  color: #61dafb;
+.settings-group button:hover {
+  background: color-mix(in srgb, var(--accent-color) 80%, black);
+  transform: translateY(-2px);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+
+/* --- Game Board --- */
+.game-board {
+  display: grid;
+  gap: 15px; /* Space between cards */
+  justify-content: center;
+  margin-top: 20px;
 }
+
+.game-board.beginner {
+  grid-template-columns: repeat(4, 1fr); /* 4 cards per row */
+  max-width: 500px; /* Adjust based on card size */
+}
+
+.game-board.advanced {
+  grid-template-columns: repeat(4, 1fr); /* 4 cards per row, wrap for 8 pairs */
+  max-width: 500px; /* Adjust based on card size */
+}
+
+
+/* --- Card Component --- */
+.card-container {
+  perspective: 1000px; /* For 3D flip effect */
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
+}
+
+.card {
+  width: 100%;
+  height: 100%;
+  position: relative; /* Crucial for absolute positioning of faces */
+  transition: transform 0.6s;
+  -webkit-transform-style: preserve-3d; /* Safari, older Chrome/Android */
+  transform-style: preserve-3d;       /* Standard */
+  /* border-radius: 10px; /* Removed, as faces have their own radius */
+}
+
+.card.flipped {
+  transform: rotateY(180deg);
+}
+
+.card.matched {
+  cursor: default;
+}
+
+.card.matched .card-face {
+  opacity: 0.6;
+}
+
+.card-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden; /* Safari, older Chrome/Android */
+  backface-visibility: hidden;       /* Standard */
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* Important to contain images within rounded borders */
+  background: var(--glass-bg); /* The semi-transparent glass background */
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--card-shadow);
+}
+
+.card-front {
+  /* This face starts rotated 180 degrees, so it's initially "behind" */
+  transform: rotateY(180deg);
+}
+
+.card-front img {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;
+}
+
+.card-back {
+  /* This face starts at 0 degrees, so it's initially "front" (visible) */
+  /* No transform needed here */
+}
+
+.card-back img {
+  max-width: 100%; /* Card back image can be larger, e.g. a pattern */
+  max-height: 100%;
+  object-fit: cover;
+}
+
+/* --- Scoreboard & Messages --- */
+.status-area {
+  margin-top: 20px;
+  padding: 15px;
+  background: rgba(0,0,0,0.1);
+  border-radius: 10px;
+  font-size: 1.2rem;
+}
+
+.status-area p {
+  margin: 5px 0;
+}
+
+.win-message {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  color: var(--accent-color);
+  margin-top: 20px;
+  padding: 20px;
+  background: var(--glass-bg);
+  border-radius: 10px;
+  border: 1px solid var(--glass-border);
+}
+
+.win-message button {
+  margin-top: 15px;
+  padding: 10px 20px;
+  background: var(--accent-color);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.win-message button:hover {
+  background: color-mix(in srgb, var(--accent-color) 80%, black);
+}
+
+/* Gestalt: Figure/Ground enhancement */
+/* Cards are clearly figures on the board. The board is a figure on the app container.
+   The app container is a figure on the body background. Glassmorphism helps define these layers. */
+
+/* Contrast: Text colors ensure readability against various backgrounds. Accent color provides focal points. */
+/* Scale: H1 is largest, followed by H2, then body text, then labels. Card size is significant. */
+/* Balance: Settings at top, game board below. Grid provides symmetrical balance for cards. */
+/* Visual Hierarchy: Title -> Settings -> Start Button -> Game Board -> Individual Cards. */
