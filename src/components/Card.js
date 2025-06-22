@@ -8,7 +8,6 @@ const Card = ({ card, onCardClick, cardBackImage }) => {
     }
   };
 
-  // Determine the CSS classes for the card based on its state.
   // - A card is 'flipped' if it has been clicked over (isFlipped) or is already matched.
   // - A card is 'matched' if it's part of a successful pair.
   const isFlipped = card.isFlipped || card.isMatched;

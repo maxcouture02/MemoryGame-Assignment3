@@ -4,7 +4,6 @@ import GameBoard from './components/GameBoard';
 import Settings from './components/Settings';
 
 // --- Image Data ---
-// In a real app, you might fetch this or have a more complex structure
 const ALL_IMAGES = {
   animals: [
     './images/animals/elephant.png', './images/animals/koala.png',
@@ -19,7 +18,7 @@ const ALL_IMAGES = {
     './images/space/spaceship.png', './images/space/ufo.png',
   ],
 };
-const CARD_BACK_IMAGE = './images/card-back.png'; // Define your card back image path
+const CARD_BACK_IMAGE = './images/card-back.png';
 
 // --- Helper Functions ---
 const shuffleArray = (array) => {
@@ -33,7 +32,7 @@ const shuffleArray = (array) => {
 
 function App() {
   const [level, setLevel] = useState('beginner'); // 'beginner', 'advanced'
-  const [imageTheme, setImageTheme] = useState('space'); // 'animals', 'nature'
+  const [imageTheme, setImageTheme] = useState('space'); // 'animals', 'space'
   const [cards, setCards] = useState([]);
   const [flippedCards, setFlippedCards] = useState([]);
   const [matchedPairs, setMatchedPairs] = useState(0);

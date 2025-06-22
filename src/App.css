@@ -159,11 +159,10 @@ h2 {
 .card {
   width: 100%;
   height: 100%;
-  position: relative; /* Crucial for absolute positioning of faces */
+  position: relative; /* For absolute positioning of faces */
   transition: transform 0.6s;
   -webkit-transform-style: preserve-3d; /* Safari, older Chrome/Android */
   transform-style: preserve-3d;       /* Standard */
-  /* border-radius: 10px; /* Removed, as faces have their own radius */
 }
 
 .card.flipped {
@@ -188,14 +187,14 @@ h2 {
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden; /* Important to contain images within rounded borders */
-  background: var(--glass-bg); /* The semi-transparent glass background */
+  overflow: hidden; 
+  background: var(--glass-bg); /* Glass background */
   border: 1px solid var(--glass-border);
   box-shadow: var(--card-shadow);
 }
 
 .card-front {
-  /* This face starts rotated 180 degrees, so it's initially "behind" */
+  /* Face starts rotated 180 degrees, so it's initially "behind" */
   transform: rotateY(180deg);
 }
 
@@ -206,12 +205,10 @@ h2 {
 }
 
 .card-back {
-  /* This face starts at 0 degrees, so it's initially "front" (visible) */
-  /* No transform needed here */
 }
 
 .card-back img {
-  max-width: 100%; /* Card back image can be larger, e.g. a pattern */
+  max-width: 100%; 
   max-height: 100%;
   object-fit: cover;
 }
@@ -255,12 +252,3 @@ h2 {
 .win-message button:hover {
   background: color-mix(in srgb, var(--accent-color) 80%, black);
 }
-
-/* Gestalt: Figure/Ground enhancement */
-/* Cards are clearly figures on the board. The board is a figure on the app container.
-   The app container is a figure on the body background. Glassmorphism helps define these layers. */
-
-/* Contrast: Text colors ensure readability against various backgrounds. Accent color provides focal points. */
-/* Scale: H1 is largest, followed by H2, then body text, then labels. Card size is significant. */
-/* Balance: Settings at top, game board below. Grid provides symmetrical balance for cards. */
-/* Visual Hierarchy: Title -> Settings -> Start Button -> Game Board -> Individual Cards. */
